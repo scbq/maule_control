@@ -8,6 +8,7 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json());
 
+// CRUD de Clientes
 // ✅ **Buscar clientes con filtros dinámicos**
 app.get("/clientes", async (req, res) => {
   console.log("📡 Recibida petición: GET /clientes");
