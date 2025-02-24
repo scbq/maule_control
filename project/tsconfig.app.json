@@ -20,5 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+<<<<<<< HEAD
   "include": ["src"]
+=======
+  "include": ["src", "../src/api.ts"]
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
 }

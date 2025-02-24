@@ -35,7 +35,11 @@ const HomePage = () => {
       <div className="relative h-[600px] bg-gradient-to-r from-blue-900 to-blue-700 flex items-center justify-center">
         <div className="absolute inset-0">
           <img
+<<<<<<< HEAD
             src="../img/home.jpg"
+=======
+            src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
             alt="Transporte"
             className="w-full h-full object-cover opacity-30"
           />
@@ -43,16 +47,27 @@ const HomePage = () => {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+<<<<<<< HEAD
             Transportes Andino
           </h1>
           <p className="text-xl md:text-2xl text-white mb-8">
             Software de Transporte y Logística
+=======
+            Software de Transporte y Logística
+          </h1>
+          <p className="text-xl md:text-2xl text-white mb-8">
+            Contigo en cada viaje
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
           </p>
           <Link
             to="/contact"
             className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 transition-colors"
           >
+<<<<<<< HEAD
             Contactanos
+=======
+            Solicitar Demo
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
             <ChevronRight className="ml-2 h-5 w-5" />
           </Link>
         </div>

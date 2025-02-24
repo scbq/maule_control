@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+import React from 'react';
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Truck, LogOut, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -47,6 +51,7 @@ import CreateVehiculo from '../components/Transporte/vehiculos/CreateVehiculo';
 //import DeleteVehiculo from '../components/Transporte/vehiculos/DeleteVehiculo';
 import SearchVehiculo from '../components/Transporte/vehiculos/SearchVehiculo';
 
+<<<<<<< HEAD
 {/*Ordenes de Trabajo components*/}
 import CreateOrden from '../components/Transporte/OT/CreateOrden';
 {/*import ModifyOrden from '../components/Transporte/OT/ModifyOrden';
@@ -60,6 +65,8 @@ import ModifyUser from '../components/CuentasDeUsuario/GestionDeUsuarios/ModifyU
 import DeleteUser from '../components/CuentasDeUsuario/GestionDeUsuarios/DeleteUser';
 import SearchUser from '../components/CuentasDeUsuario/GestionDeUsuarios/SearchUser';
 
+=======
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -78,7 +85,11 @@ const DashboardPage = () => {
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
                 <Truck className="h-8 w-8 text-blue-600" />
+<<<<<<< HEAD
                 <span className="ml-2 text-xl font-bold text-gray-900">Transporte Andino</span>
+=======
+                <span className="ml-2 text-xl font-bold text-gray-900">TransLog</span>
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -151,6 +162,7 @@ const DashboardPage = () => {
            {/*  <Route path="/Transporte/vehiculos/modificar" element={<ModifyVehiculo />} />
             <Route path="/Transporte/vehiculos/eliminar" element={<DeleteVehiculo />} />*/}
             <Route path="/Transporte/vehiculos/buscar" element={<SearchVehiculo />} />
+<<<<<<< HEAD
 
 
             {/* Ordenes de Trabajo Routes */}
@@ -166,6 +178,8 @@ const DashboardPage = () => {
             <Route path="/usuarios/buscar" element={<SearchUser />} />
 
 
+=======
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
           </Routes>
         </div>
       </div>
@@ -175,6 +189,7 @@ const DashboardPage = () => {
 
 const DashboardHome = () => (
   <div className="max-w-7xl mx-auto">
+<<<<<<< HEAD
     {/*<h1 className="text-2xl font-semibold text-gray-900">Panel de Control</h1>
     <p className="mt-2 text-gray-600">Bienvenido al sistema de gestión de transporte y logística.</p>*/}
     <div className="inset-0">
@@ -184,6 +199,10 @@ const DashboardHome = () => (
         className="w-full h-full object-cover opacity-30"
       />
     </div>
+=======
+    <h1 className="text-2xl font-semibold text-gray-900">Panel de Control</h1>
+    <p className="mt-2 text-gray-600">Bienvenido al sistema de gestión de transporte y logística.</p>
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
   </div>
 );
 

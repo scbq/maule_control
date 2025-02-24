@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import { toast } from 'sonner';
 import Navbar from '../components/Navbar';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -136,6 +139,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -164,6 +168,8 @@ const ContactPage = () => {
           </div>
         </div>
       </footer>
+=======
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
     </div>
   );
 };

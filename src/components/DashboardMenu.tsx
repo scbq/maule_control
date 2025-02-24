@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import { ChevronDown, ChevronRight, Users,  Truck, PenTool as UserCog, Plus, Edit, Trash, Search } from 'lucide-react';
+=======
+import { ChevronDown, ChevronRight, Users, FileText, DollarSign, Building, UserPlus, Truck, PenTool as Tool, Map, Tag, ClipboardList, Receipt, Wallet, Package, BarChart, UserCog, Plus, Edit, Trash, Search } from 'lucide-react';
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
 
 interface MenuItem {
   label: string;
@@ -114,6 +118,7 @@ const menuItems: MenuItem[] = [
       }
     ]
   },
+<<<<<<< HEAD
   
 //  {
 //    label: 'Contabilidad',
@@ -169,6 +174,62 @@ const menuItems: MenuItem[] = [
 //      }
 //    ]
 //  },
+=======
+  {
+    label: 'Contabilidad',
+    icon: <DollarSign className="w-5 h-5" />,
+    subItems: [
+      {
+        label: 'Facturas',
+        path: '/dashboard/contabilidad/facturas',
+        actions: createActionItems('/dashboard/contabilidad/facturas', 'factura')
+      },
+      {
+        label: 'Gastos',
+        path: '/dashboard/contabilidad/gastos',
+        actions: createActionItems('/dashboard/contabilidad/gastos', 'gasto')
+      },
+      {
+        label: 'Ingresos',
+        path: '/dashboard/contabilidad/ingresos',
+        actions: createActionItems('/dashboard/contabilidad/ingresos', 'ingreso')
+      }
+    ]
+  },
+  {
+    label: 'Bodega',
+    icon: <Package className="w-5 h-5" />,
+    subItems: [
+      {
+        label: 'Artículos',
+        path: '/dashboard/bodega/articulos',
+        actions: createActionItems('/dashboard/bodega/articulos', 'artículo')
+      },
+      {
+        label: 'Stock General',
+        path: '/dashboard/bodega/stock'
+      }
+    ]
+  },
+  {
+    label: 'Finanzas',
+    icon: <BarChart className="w-5 h-5" />,
+    subItems: [
+      {
+        label: 'Presupuestos',
+        path: '/dashboard/finanzas/presupuestos'
+      },
+      {
+        label: 'Proyectos de Inversión',
+        path: '/dashboard/finanzas/proyectos'
+      },
+      {
+        label: 'Flujo de Caja',
+        path: '/dashboard/finanzas/flujo-caja'
+      }
+    ]
+  },
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
   {
     label: 'Cuentas de Usuario',
     icon: <UserCog className="w-5 h-5" />,

@@ -12,7 +12,11 @@ const Navbar = () => {
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <Truck className="h-8 w-8 text-blue-600" />
+<<<<<<< HEAD
               <span className="ml-2 text-xl font-bold text-gray-900">Transporte Andino</span>
+=======
+              <span className="ml-2 text-xl font-bold text-gray-900">TransLog</span>
+>>>>>>> f7b3561ef45c376070f3047dc9a31893192d6658
             </Link>
           </div>
 
