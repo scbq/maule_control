@@ -7,7 +7,7 @@ const CreateClient: React.FC = () => {
     rut: "",
     giro: "",
     encargado: "",
-    ubicacion: "",
+    direccion: "", // 🔹 Cambié "ubicacion" por "direccion"
     telefono: "",
     correo: "",
   });
@@ -44,7 +44,7 @@ const CreateClient: React.FC = () => {
           <input type="text" name="rut" placeholder="RUT" value={cliente.rut} onChange={handleChange} required />
           <input type="text" name="giro" placeholder="Giro" value={cliente.giro} onChange={handleChange} />
           <input type="text" name="encargado" placeholder="Encargado" value={cliente.encargado} onChange={handleChange} />
-          <input type="text" name="ubicacion" placeholder="Ubicación" value={cliente.ubicacion} onChange={handleChange} />
+          <input type="text" name="direccion" placeholder="Dirección" value={cliente.direccion} onChange={handleChange} /> {/* 🔹 Cambié "ubicacion" por "direccion" */}
           <input type="text" name="telefono" placeholder="Teléfono" value={cliente.telefono} onChange={handleChange} required />
           <input type="email" name="correo" placeholder="Correo" value={cliente.correo} onChange={handleChange} required />
         </div>

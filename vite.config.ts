@@ -1,14 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-console.log("⚙️ Cargando configuración VITE...");
-console.log("🔹 API_URL antes de procesar:", process.env.VITE_API_URL);
-
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // Permite acceso desde otra IP
-    port: 3000,
+    host: true,
+    port: 3000, // El frontend sigue corriendo en 3000
     strictPort: true,
   },
 });

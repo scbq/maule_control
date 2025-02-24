@@ -1,13 +1,12 @@
-require("dotenv").config();
 const mysql = require("mysql2/promise");
 
-// Crear una conexión a la base de datos MySQL
+// Configuración de la base de datos
 const pool = mysql.createPool({
-  host: process.env.DB_HOST, // Dirección del hosting donde está la BD
-  user: process.env.DB_USER, // Usuario de la BD
-  password: process.env.DB_PASSWORD, // Contraseña de la BD
-  database: process.env.DB_NAME, // Nombre de la BD
-  port: process.env.DB_PORT || 3306, // Puerto de MySQL (3306 por defecto)
+  host: "207.210.102.120",
+  user: "totalcon_maule_control",
+  password: "Fa02125019f@",
+  database: "totalcon_maul_control",
+  port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

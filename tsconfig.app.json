@@ -18,7 +18,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Agregar esto */
+    "types": ["vite/client"]
   },
   "include": ["src", "src/api.ts"]
 }
