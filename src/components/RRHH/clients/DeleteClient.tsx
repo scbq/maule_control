@@ -14,21 +14,35 @@ const DeleteClient = () => {
   const [client, setClient] = useState<Client | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // 🔹 Buscar Cliente en la BD por RUT
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
+  /// 🔹 Buscar Cliente en la BD por RUT
+const handleSearch = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const response = await api.get(`/clientes/${searchTerm}`);
-      setClient(response.data);
+  if (!searchTerm.trim()) {
+    toast.error("⚠️ Ingrese un RUT válido.");
+    return;
+  }
+
+  try {
+    // 🔹 Enviar la petición con el formato correcto
+    const response = await api.get(`/clientes?search=${searchTerm}&type=rut`);
+
+    // Si el cliente existe, guardamos los datos
+    if (response.data.length > 0) {
+      setClient(response.data[0]); // Tomamos el primer resultado
       setFound(true);
-      toast.success("Cliente encontrado!");
-    } catch (error) {
-      console.error("❌ Error al buscar cliente:", error);
-      toast.error("Cliente no encontrado");
+      toast.success("✅ Cliente encontrado!");
+    } else {
+      setClient(null);
       setFound(false);
+      toast.error("⚠️ Cliente no encontrado.");
     }
-  };
+  } catch (error) {
+    console.error("❌ Error al buscar cliente:", error);
+    toast.error("❌ Error al buscar el cliente.");
+    setFound(false);
+  }
+};
 
   // 🔹 Eliminar Cliente en la BD
   const handleDelete = async () => {

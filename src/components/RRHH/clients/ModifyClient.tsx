@@ -24,18 +24,28 @@ const ModifyClient = () => {
     correo: ""
   });
 
-  // 🔹 Buscar Cliente en la BD
+  // 🔹 Buscar Cliente en la BD por RUT
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    toast.info("🔍 Buscando cliente...");
 
     try {
+      console.log(`📡 Enviando petición: GET /clientes/${searchTerm}`);
+
       const response = await api.get(`/clientes/${searchTerm}`);
-      setFormData(response.data);
-      setFound(true);
-      toast.success("Cliente encontrado!");
+
+      if (response.data) {
+        setFormData(response.data);
+        setFound(true);
+        toast.success("✅ Cliente encontrado!");
+        console.log("📋 Datos del cliente recibidos:", response.data);
+      } else {
+        toast.error("⚠️ Cliente no encontrado.");
+        setFound(false);
+      }
     } catch (error) {
       console.error("❌ Error al buscar cliente:", error);
-      toast.error("Cliente no encontrado");
+      toast.error("❌ Cliente no encontrado.");
       setFound(false);
     }
   };
@@ -43,13 +53,17 @@ const ModifyClient = () => {
   // 🔹 Guardar Cambios en la BD
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    toast.info("🔄 Guardando cambios...");
 
     try {
+      console.log(`📡 Enviando petición: PUT /clientes/${formData.rut}`);
+      console.log("📤 Datos enviados:", formData);
+
       await api.put(`/clientes/${formData.rut}`, formData);
-      toast.success("Cliente modificado correctamente!");
+      toast.success("✅ Cliente modificado correctamente!");
     } catch (error) {
       console.error("❌ Error al modificar cliente:", error);
-      toast.error("Error al modificar el cliente");
+      toast.error("❌ Error al modificar el cliente.");
     }
   };
 
@@ -69,14 +83,14 @@ const ModifyClient = () => {
       telefono: "",
       correo: ""
     });
-    toast.info("Formulario reiniciado");
+    toast.info("⚠️ Edición cancelada.");
   };
 
   return (
     <div className="max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Modificar Cliente</h2>
 
-      {/* Buscar Cliente */}
+      {/* 🔹 Buscar Cliente */}
       <form onSubmit={handleSearch} className="mb-8 bg-white p-6 rounded-lg shadow">
         <div className="flex gap-4">
           <div className="flex-1">
@@ -102,7 +116,7 @@ const ModifyClient = () => {
         </div>
       </form>
 
-      {/* Formulario de Edición */}
+      {/* 🔹 Formulario de Edición */}
       {found && (
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
           <div>
@@ -177,7 +191,21 @@ const ModifyClient = () => {
             </div>
           </div>
 
-          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md">Guardar Cambios</button>
+          <div className="flex justify-end space-x-4">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+            >
+              Guardar Cambios
+            </button>
+          </div>
         </form>
       )}
     </div>
