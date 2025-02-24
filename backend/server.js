@@ -146,6 +146,212 @@ app.delete("/clientes/:rut", async (req, res) => {
   }
 });
 
+/* =========================
+   CRUD PARA TRABAJADORES
+   ========================= */
+
+// ✅ **Buscar trabajadores con filtros dinámicos**
+app.get("/trabajadores", async (req, res) => {
+  console.log("📡 Recibida petición: GET /trabajadores");
+
+  try {
+    const { search, type } = req.query;
+    let query = "SELECT * FROM Trabajadores";
+    let values = [];
+
+    if (search && type && type !== "all") {
+      switch (type) {
+        case "rut":
+          query += " WHERE rut LIKE ?";
+          break;
+        case "nombre":
+          query += " WHERE nombre LIKE ?";
+          break;
+        case "cargo":
+          query += " WHERE cargo LIKE ?";
+          break;
+        default:
+          return res.status(400).json({ error: "Tipo de búsqueda no válido" });
+      }
+      values.push(`%${search}%`);
+    }
+
+    const [rows] = await pool.query(query, values);
+    res.json(rows);
+  } catch (error) {
+    console.error("❌ Error en la búsqueda de trabajadores:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+// ✅ **Buscar trabajador por RUT**
+app.get("/trabajadores/:rut", async (req, res) => {
+  console.log(`📡 Recibida petición: GET /trabajadores/${req.params.rut}`);
+
+  try {
+    const { rut } = req.params;
+    const [trabajador] = await pool.query(
+      "SELECT * FROM Trabajadores WHERE rut = ?",
+      [rut]
+    );
+
+    if (trabajador.length === 0) {
+      return res.status(404).json({ error: "Trabajador no encontrado" });
+    }
+
+    console.log("📋 Trabajador encontrado:", trabajador[0]);
+    res.json(trabajador[0]);
+  } catch (error) {
+    console.error("❌ Error al buscar trabajador:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+// ✅ **Crear un nuevo trabajador**
+app.post("/trabajadores", async (req, res) => {
+  console.log("📡 Recibida petición: POST /trabajadores", req.body);
+  const {
+    nombre,
+    rut,
+    cargo,
+    fecha_contratacion,
+    afp,
+    sistema_salud,
+    sueldo_base,
+    id_departamento,
+    es_chofer,
+  } = req.body;
+
+  if (!nombre || !rut || !cargo || !fecha_contratacion || !sueldo_base) {
+    return res.status(400).json({ error: "❌ Campos obligatorios faltantes." });
+  }
+
+  try {
+    const [result] = await pool.query(
+      "INSERT INTO Trabajadores (nombre, rut, cargo, fecha_contratacion, afp, sistema_salud, sueldo_base, id_departamento, es_chofer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        nombre,
+        rut,
+        cargo,
+        fecha_contratacion,
+        afp,
+        sistema_salud,
+        sueldo_base,
+        id_departamento,
+        es_chofer,
+      ]
+    );
+
+    console.log("✅ Trabajador registrado con éxito!");
+    res.status(201).json({
+      message: "Trabajador registrado con éxito!",
+      id: result.insertId,
+    });
+  } catch (error) {
+    console.error("❌ Error al registrar el trabajador:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+// 🔹 Actualizar Trabajador por RUT
+app.put("/trabajadores/:rut", async (req, res) => {
+  console.log(`📡 Recibida petición: PUT /trabajadores/${req.params.rut}`);
+
+  try {
+    const { rut } = req.params;
+    let {
+      nombre,
+      cargo,
+      fecha_contratacion,
+      afp,
+      sistema_salud,
+      sueldo_base,
+      id_departamento,
+      es_chofer,
+    } = req.body;
+
+    // Verificar si el trabajador existe
+    const [trabajadorExistente] = await pool.query(
+      "SELECT * FROM Trabajadores WHERE rut = ?",
+      [rut]
+    );
+
+    if (trabajadorExistente.length === 0) {
+      return res.status(404).json({ error: "Trabajador no encontrado" });
+    }
+
+    // Manejar valores nulos o incorrectos
+    if (!nombre || !cargo || !sueldo_base || !fecha_contratacion) {
+      return res
+        .status(400)
+        .json({ error: "❌ Campos obligatorios faltantes." });
+    }
+
+    // Convertir booleano `es_chofer` a `0` o `1`
+    es_chofer = es_chofer ? 1 : 0;
+
+    // Si `id_departamento` es vacío, asignar `NULL`
+    id_departamento = id_departamento ? parseInt(id_departamento) : null;
+
+    // Validar el formato de la fecha de contratación
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha_contratacion)) {
+      return res
+        .status(400)
+        .json({ error: "Formato de fecha inválido (YYYY-MM-DD requerido)" });
+    }
+
+    // Actualizar trabajador
+    await pool.query(
+      `UPDATE Trabajadores 
+      SET nombre = ?, cargo = ?, fecha_contratacion = ?, afp = ?, sistema_salud = ?, sueldo_base = ?, id_departamento = ?, es_chofer = ?
+      WHERE rut = ?`,
+      [
+        nombre,
+        cargo,
+        fecha_contratacion,
+        afp,
+        sistema_salud,
+        sueldo_base,
+        id_departamento,
+        es_chofer,
+        rut,
+      ]
+    );
+
+    console.log(`✅ Trabajador con RUT ${rut} actualizado.`);
+    res.json({ message: "Trabajador actualizado con éxito" });
+  } catch (error) {
+    console.error("❌ Error al actualizar trabajador:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
+// ✅ **Eliminar un trabajador por RUT**
+app.delete("/trabajadores/:rut", async (req, res) => {
+  console.log(`📡 Recibida petición: DELETE /trabajadores/${req.params.rut}`);
+
+  try {
+    const { rut } = req.params;
+
+    const [trabajadorExistente] = await pool.query(
+      "SELECT * FROM Trabajadores WHERE rut = ?",
+      [rut]
+    );
+
+    if (trabajadorExistente.length === 0) {
+      return res.status(404).json({ error: "Trabajador no encontrado" });
+    }
+
+    await pool.query("DELETE FROM Trabajadores WHERE rut = ?", [rut]);
+
+    console.log(`🗑️ Trabajador con RUT ${rut} eliminado.`);
+    res.json({ message: "Trabajador eliminado correctamente" });
+  } catch (error) {
+    console.error("❌ Error al eliminar trabajador:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
 // ✅ **Iniciar el servidor**
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`);

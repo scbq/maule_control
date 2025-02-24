@@ -1,59 +1,70 @@
-import React, { useState } from 'react';
-import { toast } from 'sonner';
-import { Search, AlertTriangle } from 'lucide-react';
+import React, { useState } from "react";
+import { toast } from "sonner";
+import { Search, AlertTriangle } from "lucide-react";
+import api from "../../../api"; // ✅ Importación correcta
 
 interface Worker {
   nombre: string;
-  apellido: string;
   rut: string;
+  cargo: string;
 }
 
 const DeleteWorker = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [found, setFound] = useState(false);
   const [worker, setWorker] = useState<Worker | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleSearch = (e: React.FormEvent) => {
+  // 🔹 Buscar Trabajador en la BD por RUT
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically search in a database
-    // For demo purposes, we'll simulate finding a Workers
-    setFound(true);
-    setWorker({
-      nombre: searchTerm,
-      apellido: 'Rosario Palma',
-      rut: '17.702.255-7'
-    });
-    setShowConfirmation(false);
+
+    try {
+      const response = await api.get(`/trabajadores/${searchTerm}`);
+      setWorker(response.data);
+      setFound(true);
+      setShowConfirmation(false);
+      toast.success("Trabajador encontrado!");
+    } catch (error) {
+      console.error("❌ Error al buscar trabajador:", error);
+      toast.error("Trabajador no encontrado");
+      setFound(false);
+    }
   };
 
-  const handleDelete = () => {
-    // Here you would typically delete from the database
-    toast.success('Trabajador eliminado correctamente');
-    setFound(false);
-    setWorker(null);
-    setSearchTerm('');
-    setShowConfirmation(false);
+  // 🔹 Eliminar Trabajador en la BD
+  const handleDelete = async () => {
+    try {
+      await api.delete(`/trabajadores/${worker?.rut}`);
+      toast.success("Trabajador eliminado correctamente");
+      setFound(false);
+      setWorker(null);
+      setSearchTerm("");
+      setShowConfirmation(false);
+    } catch (error) {
+      console.error("❌ Error al eliminar trabajador:", error);
+      toast.error("Error al eliminar el trabajador");
+    }
   };
 
   const handleCancel = () => {
     setFound(false);
     setWorker(null);
-    setSearchTerm('');
+    setSearchTerm("");
     setShowConfirmation(false);
-    toast.info('Operación cancelada');
+    toast.info("Operación cancelada");
   };
 
   return (
     <div className="max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-6">Eliminar Trabajador</h2>
 
-      {/* Search Form */}
+      {/* Buscar Trabajador */}
       <form onSubmit={handleSearch} className="mb-8 bg-white p-6 rounded-lg shadow">
         <div className="flex gap-4">
           <div className="flex-1">
             <label htmlFor="search" className="block text-sm font-medium text-gray-700">
-              Buscar Trabajador
+              Buscar Trabajador por RUT
             </label>
             <input
               type="text"
@@ -61,7 +72,7 @@ const DeleteWorker = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Giro del Cliente"
+              placeholder="Ejemplo: 17.702.255-7"
             />
           </div>
           <button
@@ -74,7 +85,7 @@ const DeleteWorker = () => {
         </div>
       </form>
 
-      {/* Workers Information */}
+      {/* Información del Trabajador */}
       {found && worker && (
         <div className="bg-white p-6 rounded-lg shadow space-y-6">
           <div className="space-y-4">
@@ -85,8 +96,8 @@ const DeleteWorker = () => {
                 <p className="mt-1">{worker.nombre}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Apellido</p>
-                <p className="mt-1">{worker.apellido}</p>
+                <p className="text-sm font-medium text-gray-500">Cargo</p>
+                <p className="mt-1">{worker.cargo}</p>
               </div>
             </div>
             <div>
